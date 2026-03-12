@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cards</title>
+    <style>
+        .cards {
+            background-color: lightblue;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        .card{
+            border: 2px solid black;
+            border-radius: 8px;
+            width: 10rem;
+            height: 10rem;
+        }
+        .red {
+            background-color: red;
+        }
+        .orange {
+            background-color: orange;
+        }
+        .green {
+            background-color: green;
+        }
+    </style>
+</head>
+<body>
+    <div class="cards">
+        <div class="card" data-color="red">1</div>
+        <div class="card" data-color="green">2</div>
+        <div class="card" data-color="orange">3</div>
+        <div class="card" data-color="red">4</div>
+        <div class="card" data-color="green">5</div>
+        <div class="card" data-color="orange">6</div>
+        <div class="card" data-color="red">7</div>
+        <div class="card" data-color="orange">8</div>
+        <div class="card" data-color="green">9</div>
+        <div class="card" data-color="red">10</div>
+    </div>
+
+    <script>
+        const cards = document.getElementsByClassName("card");
+
+        for (let index = 0; index < cards.length; index++) {
+            const element = cards[index];
+            // console.log("ele", element);
+            element.addEventListener("dblclick", (e) => {
+                const el = cards[parseInt(e.target.innerText) - 1];
+                el.classList.add(e.target.dataset.color);
+                el.setAttribute("data-color", "used");
+            })
+        }
+        // console.log(cards, cards.map((a) => a));
+        // cards.forEach(element => {
+        // });
+    </script>
+</body>
+</html>

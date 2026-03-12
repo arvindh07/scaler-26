@@ -1,0 +1,16 @@
+- The browser parses HTML to create the DOM tree and CSS to create the CSSOM. It exposes Web APIs like document, window, and fetch to JavaScript. We write JavaScript assuming these browser APIs exist, and the browser executes the code using its JavaScript engine and Web APIs.
+
+Difference bw getElementBy and querySelector fns in DOM
+
+- querySelector is the screenshot at that particular point of time
+- getElementBy is the live one
+- for eg, consider a ul and li items of 2. put the log for both and both will be of length 2. but aftr that, add one more li, now put the log, getElementBy will be 3 and querySelector will be still same 2, because it was taken during that moment.
+- getElementBy => returns htmlCollection
+- querySelector => returns nodelist
+also,
+- add or remove object
+    - getElementBy - have current data
+    - querySelector - have old data
+- updating text content
+    - getElementBy - have updated data
+    - querySelector - have updated data
