@@ -1,6 +1,8 @@
 let temp_c = null;
 let temp_f = null;
 const tempDiv = document.querySelector(".temp");
+const loaderSpan = document.querySelector(".loader");
+loaderSpan.style.display = "None";
 
 const populateCondition = (condition, conditionText, conditionIcon) => {
     conditionText.innerText = condition.text;
@@ -43,6 +45,7 @@ const handleToggleTemp = () => {
 
 const fetchData = async (searchTerm) => {
     try {
+        loaderSpan.style.display = "block";
         const url = `http://api.weatherapi.com/v1/current.json?key=81a2c31d86cb4128946161443261303&q=${searchTerm}`;
         const response = await fetch(url);
         const json = await response.json();
@@ -68,6 +71,8 @@ const fetchData = async (searchTerm) => {
     } catch (error) {
         console.log(error);
         alert(`Could not fetch the location field - ${searchTerm}`);
+    } finally {
+        loaderSpan.style.display = "None";
     }
 }
 
@@ -92,19 +97,26 @@ function getDateBeforeDays(days) {
 }
 
 const fetchDataHistory = async (searchTerm, date, idx) => {
-    const url = `http://api.weatherapi.com/v1/history.json?key=81a2c31d86cb4128946161443261303&q=${searchTerm}&dt=${date}`;
-    const response = await fetch(url);
-    const json = await response.json();
-
-    if (json?.error?.message) {
-        alert(`${json?.error?.message}`);
-        return;
+    try {
+        loaderSpan.style.display = "block";
+        const url = `http://api.weatherapi.com/v1/history.json?key=81a2c31d86cb4128946161443261303&q=${searchTerm}&dt=${date}`;
+        const response = await fetch(url);
+        const json = await response.json();
+    
+        if (json?.error?.message) {
+            alert(`${json?.error?.message}`);
+            return;
+        }
+    
+        const temp = json.forecast.forecastday[0].day.maxtemp_c;
+        const localDate = json.forecast.forecastday[0].date;
+        const condition = json.forecast.forecastday[0].day.condition;
+        populatePastHistory(temp, localDate, condition, idx);
+    } catch (error) {
+        console.log("Error ", error);
+    } finally {
+        loaderSpan.style.display = "None";
     }
-
-    const temp = json.forecast.forecastday[0].day.maxtemp_c;
-    const localDate = json.forecast.forecastday[0].date;
-    const condition = json.forecast.forecastday[0].day.condition;
-    populatePastHistory(temp, localDate, condition, idx);
 }
 
 const handleGetHistory = async (searchTerm) => {
