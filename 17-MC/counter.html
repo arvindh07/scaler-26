@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Counter</title>
+
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        #count {
+            font-size: 3rem;
+            border: 1px solid black;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            width: 70px;
+            height: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .btns {
+            display: flex;
+            gap: 1.5rem;
+        }
+        #plus, #minus {
+            border: 0;
+            background-color: lightgray;
+            font-size: 2rem;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .restDiv {
+            margin-top: 1rem;
+        }
+        #reset {
+            background-color: red;
+            border: 0;
+            padding: 0.5rem 2rem;
+            border-radius: 4px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+        .stepDiv {
+            margin-top: 1rem;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+        #stepNumber {
+            width: 100px;
+        }
+
+        h1 {
+            font-size: 2rem;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Counter🚀</h2>
+    <div id="count">0</div>
+
+    <div class="btns">
+        <button id="plus">+</button>
+        <button id="minus">-</button>
+    </div>
+    <div class="restDiv">
+        <button id="reset">Reset</button>
+    </div>
+
+    <div class="stepDiv">
+        <label for="stepNumber">Increase/Decrease by</label>
+        <input type="number" name="stepNumber" id="stepNumber">
+    </div>
+    <script>
+        const plusBtn = document.getElementById("plus");
+        const minusBtn = document.getElementById("minus");
+        const resetBtn = document.getElementById("reset");
+        const valueEl = document.getElementById("count");
+        const incIp = document.getElementById("stepNumber");
+        let inc = 1;
+
+        window.addEventListener("load", () => {
+            minusBtn.disabled = true;
+        })
+        
+        plusBtn.addEventListener("click", () => {
+            let value = parseInt(document.getElementById("count").innerText) || 0;
+            value += inc;
+            minusBtn.disabled = false;
+            valueEl.innerText = value;
+        })
+        minusBtn.addEventListener("click", () => {
+            let value = parseInt(document.getElementById("count").innerText) || 0;
+            value -= inc;
+            if(value > 0) {
+                minusBtn.disabled = false;
+                valueEl.innerText = value;
+            } else {
+                minusBtn.disabled = true;
+                valueEl.innerText = 0;
+            }
+        })
+        resetBtn.addEventListener("click", () => {
+            valueEl.innerText = 0;
+            incIp.value = 1;
+            inc = 1;
+        })
+
+        // step
+        incIp.addEventListener("input", (e) => {
+            inc = parseInt(e.target.value) || 1;
+        })
+    </script>
+</body>
+</html>
+
+<!-- 
+create a counter component
+
+- display the num = 0
+- plus btn to increase
+- minus btn to decrese
+- reset btn
+
+- increment counter value
+-->
