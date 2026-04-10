@@ -8,6 +8,7 @@ ratings
 
 good to have
 
+- mouseover, mouseleave
 - partial ratings
 - emojis instead of number
 - feedback form
@@ -50,18 +51,23 @@ good to have
     <h3>Please leave a rating🙏</h3>
     <div id="ratings">
         <img class="rate outline"
+            id="1"
             src="https://img.freepik.com/premium-photo/minimalist-star-outline-icon_53876-1306814.jpg?semt=ais_hybrid&w=740&q=80"
             alt="">
         <img class="rate outline"
+            id="2"
             src="https://img.freepik.com/premium-photo/minimalist-star-outline-icon_53876-1306814.jpg?semt=ais_hybrid&w=740&q=80"
             alt="">
         <img class="rate outline"
+            id="3"
             src="https://img.freepik.com/premium-photo/minimalist-star-outline-icon_53876-1306814.jpg?semt=ais_hybrid&w=740&q=80"
             alt="">
         <img class="rate outline"
+            id="4"
             src="https://img.freepik.com/premium-photo/minimalist-star-outline-icon_53876-1306814.jpg?semt=ais_hybrid&w=740&q=80"
             alt="">
         <img class="rate outline"
+            id="5"
             src="https://img.freepik.com/premium-photo/minimalist-star-outline-icon_53876-1306814.jpg?semt=ais_hybrid&w=740&q=80"
             alt="">
     </div>
@@ -76,8 +82,11 @@ good to have
         const rateCount = document.getElementById("rate_count");
 
 
-        const handleRating = (idx) => {
-            const newStars = [];
+        const handleRating = (e) => {
+            const currentEl = e.target;
+            const currentId = parseInt(currentEl.getAttribute("id"));
+            
+            let idx = currentId - 1;
             const isRated = (stars[idx].classList || []).contains("fill");
             const needToOff = (parseInt(rateCount.innerText) - 1) === idx;
 
@@ -115,10 +124,7 @@ good to have
             rateCount.innerText = needToOff ? 0 : idx + 1;
         }
 
-        stars.forEach((star, idx) => {
-            star.addEventListener("click", () => handleRating(idx));
-        })
-
+        ratingsDiv.addEventListener("click", handleRating);
 
     </script>
 </body>
