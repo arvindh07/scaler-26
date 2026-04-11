@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chess board</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        table {
+            margin-top: 2rem;
+            background-color: antiquewhite;
+            border: 1px solid black;
+        }
+
+        tr {
+            display: flex;
+        }
+
+        td {
+            width: 50px;
+            height: 50px;
+            border: 1px solid black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .white {
+            background-color: whitesmoke;
+            color: black;
+        }
+
+        .black {
+            background-color: rgb(23, 23, 23);
+            color: white;
+        }
+
+        .hover {
+            background-color: cornflowerblue;
+            transition: all 0.3s;
+            color: black;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Chess board</h2>
+
+    <table>
+        <tbody id="table_body"></tbody>
+    </table>
+
+    <script>
+        const tbody = document.getElementById("table_body");
+
+        const handleCallHover = (e) => {
+            removeBishopPositions();
+            // bishop
+            const sq = e.target;
+            if (sq.tagName.toLowerCase() !== "td") return;
+            sq.classList.add("hover");
+
+
+            // show bishop positions
+            showBishopPositions(sq);
+        }
+
+        const handleLeaveHover = (e) => {
+            // bishop
+            const sq = e.target;
+
+            sq.classList.remove("hover");
+
+            removeBishopPositions();
+        }
+
+        // add event listener
+        tbody.addEventListener("mouseover", handleCallHover);
+        tbody.addEventListener("mouseleave", handleLeaveHover);
+
+        const removeBishopPositions = () => {
+            const cells = document.querySelectorAll("td");
+
+            cells.forEach(cell => {
+                cell.classList.remove("hover");
+            });
+        }
+
+        const showBishopPositions = (currentCell) => {
+            const currData = currentCell.getAttribute("data-index");
+            const currRow = parseInt(currData.split("-")[0]);
+            const currCol = parseInt(currData.split("-")[1]);
+
+            const prevRow = currRow > 0 ? currRow - 1 : 0;
+            const nextRow = currRow < 7 ? currRow + 1 : 7;
+            const prevCol = currCol > 0 ? currCol - 1 : 0;
+            const nextCol = currCol < 7 ? currCol + 1 : 7;
+
+            const topLeft = currRow === 0 || currCol === 0 ? `` : `${prevRow}-${prevCol}`;
+            const topRight = currRow === 0 || currCol === 7 ? `` : `${prevRow}-${nextCol}`;
+            const bottomLeft = currRow === 7 || currCol === 0 ? `` : `${nextRow}-${prevCol}`;
+            const bottomRight = currRow === 7 || currCol === 7 ? `` : `${nextRow}-${nextCol}`;
+
+            // add hover class for this immediate cells
+            const cells = document.querySelectorAll("td");
+            const rows = document.querySelectorAll("tr");
+
+            // tl
+            let tempRow = currRow;
+            let tempCol = currCol;
+            while (tempRow >= 0 && tempCol >= 0) {
+                const cell = cells[(tempRow * 8) + tempCol];
+                cell.classList.add("hover");
+                tempRow -= 1;
+                tempCol -= 1;
+            }
+            // tr
+            tempRow = currRow;
+            tempCol = currCol;
+            while (tempRow >= 0 && tempCol < 8) {
+                const cell = cells[(tempRow * 8) + tempCol];
+                cell.classList.add("hover");
+                tempRow -= 1;
+                tempCol += 1;
+            }
+            // bl
+            tempRow = currRow;
+            tempCol = currCol;
+            while (tempRow < 8 && tempCol >= 0) {
+                const cell = cells[(tempRow * 8) + tempCol];
+                cell.classList.add("hover");
+                tempRow += 1;
+                tempCol -= 1;
+            }
+            // br
+            tempRow = currRow;
+            tempCol = currCol;
+            while (tempRow < 8 && tempCol < 8) {
+                const cell = cells[(tempRow * 8) + tempCol];
+                cell.classList.add("hover");
+                tempRow += 1;
+                tempCol += 1;
+            }
+        }
+
+        for (let i = 0; i < 8; i++) {
+            // create tr
+            const tr = document.createElement("tr");
+            for (let j = 0; j < 8; j++) {
+                const colCls = (i + j) % 2 === 0 ? "white" : "black";
+                const td = document.createElement("td");
+                td.textContent = `${i}-${j}`;
+                td.setAttribute("data-index", `${i}-${j}`);
+                tr.appendChild(td);
+                td.classList.add(colCls);
+            }
+            tbody.appendChild(tr);
+        }
+    </script>
+</body>
+
+</html>
