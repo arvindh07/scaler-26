@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nested comments</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h2 {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        #message_container {
+            border: 2px solid black;
+            padding: 1rem;
+        }
+
+        .msg {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            width: 500px;
+            padding: 12px;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+
+        .user {
+            font-weight: bolder;
+            margin-bottom: 0rem;
+        }
+
+        .content {
+            margin-top: 0.5rem;
+        }
+
+        .img {
+            background-color: crimson;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+
+        .pl {
+            padding-left: 4rem;
+        }
+
+        .ip {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        #reply {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 0.2rem 1rem;
+            cursor: pointer;
+            background-color: black;
+            color: white;
+            border: 1px solid black;
+            border-radius: 4px;
+            transition: all 0.3s;
+            width: fit-content;
+        }
+
+        #reply:hover {
+            background-color: white;
+            color: black;
+        }
+
+        .hide {
+            display: none;
+        }
+        .show {
+            display: block;
+        }
+    </style>
+</head>
+<!-- <div class="img"></div> -->
+
+<body>
+    <h2>Nested Comments</h2>
+    <div id="message_container"></div>
+
+
+    <script>
+        const messages = [
+            {
+                id: 1,
+                userName: "Arvindh G",
+                message: "Hello",
+                nestedComments: [
+                    {
+                        id: 2,
+                        userName: "Abhishek",
+                        message: "nested hi",
+                        nestedComments: [
+                            {
+                                id: 3,
+                                userName: "Head",
+                                message: "nested nested hi",
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 4,
+                userName: "Barlett",
+                message: "sec hlo",
+                nestedComments: [
+                    {
+                        id: 5,
+                        userName: "Arshdeep",
+                        message: "sec nested hi",
+                        nestedComments: []
+                    }
+                ]
+            }
+        ];
+
+        const msgContainer = document.getElementById("message_container");
+
+        const handleSubmit = (msg) => {
+            const msgObj = {
+                id: messages.length + 1,
+                userName: "KL",
+                message: msg
+            }
+        }
+
+        msgContainer.addEventListener("click", (e) => {
+            const el = e.target;
+            if(el.id === "reply") {
+                const parentIp = el.parentElement;
+                const ipBox = parentIp.querySelector(".ip_box");
+                const submit = parentIp.querySelector(".submit");
+                const conIp = parentIp.querySelector(".content");
+                
+                ipBox.classList.remove("hide");
+                ipBox.classList.add("show");
+                submit.addEventListener("click", () => handleSubmit(conIp.value));
+            }
+        })
+
+        const displayMessage = (mgs, idx) => {
+            mgs.forEach((msgObj, i) => {
+                const pl = (idx * 4) + "rem";
+                const msgHtml = `
+                    <div class="msg" style="padding-left: ${pl}">
+                        <div class="mc">
+                            <p class="user">${msgObj.userName}</p>
+                            <p class="content">${msgObj.message}</p>
+                            <div class="ip">
+                                <button id="reply">Add reply</button>
+                                <div class="ip_box hide">
+                                    <input name="content" class="content" />
+                                    <button id="reply" class="submit">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                msgContainer.innerHTML += msgHtml;
+                if (msgObj.nestedComments?.length > 0) {
+                    displayMessage(msgObj.nestedComments, idx + 1);
+                }
+            })
+        }
+
+        displayMessage(messages, 0);
+    </script>
+</body>
+
+</html>

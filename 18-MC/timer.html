@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 {
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            padding: 1rem;
+            border-bottom: 1px solid black;
+        }
+
+        .timer {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .timer input {
+            width: 45px;
+            height: 60px;
+            font-size: 2rem;
+            text-align: center;
+        }
+
+        .timer span {
+            font-size: 3rem;
+            font-weight: bolder;
+        }
+
+        .info {
+            margin-top: 1rem;
+            text-align: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .info span {
+            font-weight: bolder;
+        }
+
+        .action_btns {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .action_btns button {
+            border: 0;
+            background-color: rgb(27, 27, 255);
+            color: white;
+            padding: 0.5rem 1.2rem;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .action_btns button:hover {
+            background-color: blue;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Countdown Timer</h2>
+            <div class="main">
+                <div class="timer">
+                    <input type="text" maxlength="1" id="mm1" value="0">
+                    <input type="text" maxlength="1" id="mm2" value="0">
+                    <span>:</span>
+                    <input type="text" maxlength="1" id="ss1" value="0">
+                    <input type="text" maxlength="1" id="ss2" value="0">
+                </div>
+                <div class="action_btns">
+                    <button id="start">Start</button>
+                    <button id="stop">Stop</button>
+                    <button id="reset">Reset</button>
+                </div>
+                <div class="info">Please enter a valid time in <span>MM:SS</span></div>
+            </div>
+    </div>
+
+    <script>
+        const mm1 = document.getElementById("mm1");
+        const mm2 = document.getElementById("mm2");
+        const ss1 = document.getElementById("ss1");
+        const ss2 = document.getElementById("ss2");
+
+        const startBtn = document.getElementById("start");
+        const stopBtn = document.getElementById("stop");
+        const resetBtn = document.getElementById("reset");
+
+        startBtn.addEventListener("click", () => {
+            // get time
+            const mins = parseInt(mm1.value + mm2.value);
+            const secs = parseInt(ss1.value + ss2.value);
+            // start interval
+            const inMs = mins * 60 * 1000 + secs * 1000;
+            setTimeout(() => {
+                
+            }, inMs);
+        })
+        stopBtn.addEventListener("click", () => {
+        })
+        resetBtn.addEventListener("click", () => {
+        })
+
+        const ips = document.querySelectorAll("input");
+        ips.forEach((ip) => {
+            ip.addEventListener("keydown", (e) => {
+                const rawValue = e.target.value;
+                const numberValue = parseInt(rawValue);
+
+                if (e.key === "Backspace") {
+                    ip.value = 0;
+                }
+                console.log(rawValue, numberValue, e.key, ip);
+                if (numberValue >= 0 && numberValue <= 9) {
+                    ip.value = numberValue;
+                }
+            })
+
+        })
+    </script>
+</body>
+
+</html>
