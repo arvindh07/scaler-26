@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>oops</h1>
+    <script>
+        // 1
+        // console.log("this ", this);
+
+        // 2
+        const glo = () => {
+            console.log("glo", this);
+        }
+        // glo();
+
+        // 3
+        const obj1 = {
+            a: 10,
+            fn: function () {
+                // represents obj1
+                console.log(this);
+            }
+        }
+        // obj1.fn();
+
+        // 4
+        const obj2 = {
+            b: 10,
+            fn: function () {
+                // represents obj2
+                console.log(this);
+                const nf = function () {
+                    console.log("nf", this);
+                }
+                // represents window{}, it is like calling window.nf()
+                nf();
+            }
+        }
+        // obj2.fn();
+
+        // 5
+        const obj3 = {
+            c: 10,
+            fn: function () {
+                // represents obj2
+                console.log(this);
+                const nf = function () {
+                    console.log("nf", this);
+                }
+                return nf;
+            }
+        }
+        // const r = obj3.fn();
+        // represents window{}, it is like calling window.nf()
+        // r();
+        const car = {
+            make: "Toyota",
+            engine: function () {
+                console.log(this, `Car started: ${this.toString()}`);
+            },
+            engine1: {
+                start: () => {
+                    console.log("1", this);
+                }
+            }
+            // start: function () {
+            //     console.log(`Car started: ${this.make}`);
+            // }
+        };
+        car.engine();
+        car.engine1.start();
+    </script>
+</body>
+
+</html>
